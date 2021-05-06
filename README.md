@@ -4,10 +4,9 @@
 1) Clone the project in your local directory
     git clone https://github.com/syednoor1995/Assignment.git
 2) Open the project in VS Code
-3) Install all the necassary dependency by using the following command
-    npm install
-4) Run the Server by using the following command
-    npm start
+3) Install all the necassary dependency by using (npm install) command in terminal.
+4) Run the Server by using (npm start) command in terminal.
+
     
     
 # Assignment detail description
