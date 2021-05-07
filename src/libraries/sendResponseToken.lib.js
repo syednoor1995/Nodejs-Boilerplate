@@ -2,13 +2,11 @@
  * Response Handler to send response in case of request success
  * Using this handler ensures that system has consistent response pattern
  * @param {object} res express response object
- * @param {string} successCode success code for request if available
  * @param {object} data response data for request
- * @param {any} meta any additional data in api
+ * @param {any} token token send in header
  */
-module.exports = (res, data, meta) => {
-  res.json({
+module.exports = (res, data, token) => {
+  res.header("x-auth", token).json({
     data,
-    meta,
   });
 };

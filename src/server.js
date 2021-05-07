@@ -1,22 +1,24 @@
-const express = require('express');
-const bodyParser = require('body-parser');
-const compress = require('compression');
-const cors = require('cors');
-const helmet = require('helmet');
-const logger = require('morgan');
-const { ValidationError } = require('express-validation');
+const express = require("express");
+const bodyParser = require("body-parser");
+const compress = require("compression");
+const cors = require("cors");
+const helmet = require("helmet");
+const logger = require("morgan");
+const { ValidationError } = require("express-validation");
 
 /* Require configuration */
-const { ENV } = require('./config');
+const { ENV } = require("./config");
 
 /* Get required libraries */
 const {
   Factory: { ErrorFactory },
-  Mappings: { Errors: { RouteErrors } },
-} = require('./libraries');
+  Mappings: {
+    Errors: { RouteErrors },
+  },
+} = require("./libraries");
 
 /* Require all routes */
-const routes = require('./routes');
+const routes = require("./routes");
 
 /* Create Express Application */
 const app = express();
@@ -24,6 +26,7 @@ const app = express();
 /**
  * Load all middlewares
  */
+
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: false }));
 app.use(compress());
@@ -32,14 +35,14 @@ app.use(helmet());
 // enable CORS - Cross Origin Resource Sharing
 app.use(cors());
 // configure logger if in development
-if (ENV === 'development') {
-  app.use(logger('dev'));
+if (ENV === "development") {
+  app.use(logger("dev"));
 }
 
 /**
  * Mount all routes on path /api
  */
-app.use('/api', routes);
+app.use("/api", routes);
 
 /**
  * If requested route does not exist
@@ -73,9 +76,9 @@ app.use((err, req, res, next) => {
   }
 
   /* Unexpected Error */
-  if (finalError.name !== 'APIError') {
+  if (finalError.name !== "APIError") {
     // log this error since this is an unexpected error that we didn't created ourself
-    console.error('SYSTEM ERROR: ', finalError);
+    console.error("SYSTEM ERROR: ", finalError);
     finalError = ErrorFactory.getError();
   }
   next(finalError);
@@ -86,20 +89,15 @@ app.use((err, req, res, next) => {
  * stack trace is sent only when the system is running in development mode
  */
 app.use((err, req, res, next) =>
-  res
-    .status(err.statusCode)
-    .json({
-      message: err.message,
-      errorKey: err.errorKey,
-      meta: err.meta,
-      stack: ENV === 'development' ? err.stack : {},
-    })
+  res.status(err.statusCode).json({
+    message: err.message,
+    errorKey: err.errorKey,
+    meta: err.meta,
+    stack: ENV === "development" ? err.stack : {},
+  })
 );
 
 /**
  * Export express app
  */
 module.exports = app;
-
-
-

@@ -2,6 +2,7 @@ const { User } = require("../../models");
 const { JWT } = require("../../config");
 const {
   sendResponse,
+  sendResponseToken,
   Factory: { ErrorFactory },
   JwtManager,
   Mappings: {
@@ -46,7 +47,7 @@ const login = async (req, res, next) => {
     );
 
     //send response back to user
-    sendResponse(res, { token, profile: data.safeModel() });
+    sendResponseToken(res, { profile: data.safeModel() }, token);
   } catch (error) {
     next(error);
   }
@@ -62,7 +63,7 @@ const signup = async (req, res, next) => {
   try {
     const payload = {
       ...req.body,
-      role: UserRoles.USER,
+      role: req.body.role == UserRoles.USER ? UserRoles.USER : UserRoles.ADMIN,
     };
     const data = (await User.create(payload)).safeModel();
 
@@ -70,14 +71,15 @@ const signup = async (req, res, next) => {
     const token = JwtManager.generateToken(
       {
         profile: data,
-        role: UserRoles.USER,
+        role:
+          req.body.role == UserRoles.USER ? UserRoles.USER : UserRoles.ADMIN,
       },
       JWT.SECRET,
       { expiresIn: JWT.EXPIRES_IN }
     );
 
     //send response back to user
-    sendResponse(res, { token, profile: data });
+    sendResponseToken(res, { profile: data }, token);
   } catch (error) {
     next(error);
   }

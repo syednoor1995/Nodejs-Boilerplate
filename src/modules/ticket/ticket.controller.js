@@ -38,17 +38,25 @@ const save = async (req, res, next) => {
  */
 const get = async (req, res, next) => {
   try {
-    const { _id: userId } = req.profile;
+    // destructure page and limit and set default values
+    const { page = 1, limit = 10 } = req.query;
 
-    const data = await Ticket.find({ userId });
+    const data = await Ticket.find({})
+      .limit(limit * 1)
+      .skip((page - 1) * limit);
+
     if (!data) {
       const error = ErrorFactory.getError(TicketErrors.TICKET_NOT_FOUND);
       throw error;
     }
+    // get total documents in the Posts collection
+    const count = await Ticket.countDocuments();
 
-    const safeModel = data.safeModel();
-
-    sendResponse(res, safeModel);
+    sendResponse(res, {
+      totalPages: Math.ceil(count / limit),
+      currentPage: page,
+      ticket: data,
+    });
   } catch (error) {
     next(error);
   }

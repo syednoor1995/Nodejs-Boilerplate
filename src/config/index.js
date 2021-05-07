@@ -54,7 +54,7 @@ if (envConfigError) {
  */
 const moduleConfiguration = {
   unmount: [],
-  deauth: ["auth", "mappings"],
+  deauth: ["user", "ticket"],
 };
 
 // Export all configuration
