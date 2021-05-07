@@ -8,7 +8,15 @@
 4) Run the Server by using (npm start) command in terminal.
 
     
+# PostMan collection URL
+https://www.getpostman.com/collections/fa0edab71b63fed622e2
+
+# How to run Test Case
+    -Run this command (npm test)
     
+Note: 
+    -Select Dev environment.
+
 # Assignment detail description
 The API should implement the following:
 
@@ -30,7 +38,7 @@ The API should implement the following:
 ●User sign in with JWT tokens
 
     -Method: POST
-    -Route URL: http://localhost:4041/api/user/signin
+    -Route URL: http://localhost:4041/api/user/login
     -Request Body:
     {
     "email": "noorraza377@gmail.com",
@@ -60,10 +68,18 @@ The API should implement the following:
         "lastName": "noora"
     }
     }
-●Admin user request to list customer support tickets
+●Admin user request to list customer support tickets (by default it will fetch first 10 records)
 
     -Method: GET
     -Route URL: http://localhost:4041/api/ticket
+    -Header: Pass JWT token in Authorization
+    -Request Body:None
+    -Response: Returns an array of customer support tickets
+    
+●Admin user request to list customer support tickets (with pagination)
+
+    -Method: GET
+    -Route URL: http://localhost:4041/api/ticket?limit=30&page=1
     -Header: Pass JWT token in Authorization
     -Request Body:None
     -Response: Returns an array of customer support tickets
