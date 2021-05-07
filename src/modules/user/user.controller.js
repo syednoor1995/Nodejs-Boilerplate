@@ -47,7 +47,7 @@ const login = async (req, res, next) => {
     );
 
     //send response back to user
-    sendResponseToken(res, { profile: data.safeModel() }, token);
+    sendResponseToken(res, { token, profile: data.safeModel() }, token);
   } catch (error) {
     next(error);
   }
@@ -79,7 +79,7 @@ const signup = async (req, res, next) => {
     );
 
     //send response back to user
-    sendResponseToken(res, { profile: data }, token);
+    sendResponseToken(res, { token, profile: data }, token);
   } catch (error) {
     next(error);
   }
