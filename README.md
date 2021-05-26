@@ -1,6 +1,6 @@
 
 
-# Assignment
+# Boilerplate
 
 # JWT Token will be returned in the Response Header with the key "x-auth"
 ## How To Run
